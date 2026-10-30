@@ -1,3 +1,5 @@
-/build/
+/c_version/build/
 /data/raw/
+/c_version/data/raw/
 *.o
+.idea/

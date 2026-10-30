@@ -7,7 +7,7 @@ Javidan Hajizada and Saleh Shahverdiyev. C11, own implementations.
 
 M1 target: Friday 2026-10-30, three tested baseline queues and a reproducible BFS
 prototype. The fourth queue is a design task, not a working implementation.
-Final goals remain in [PROJECT_OBJECTIVES.md](../PROJECT_OBJECTIVES.md), including
+Final goals remain in [PROJECT_OBJECTIVES.md](../../PROJECT_OBJECTIVES.md), including
 multi-source BFS, more generators and measured comparisons; those are future work.
 
 Pre-experiment hypotheses (no performance experiments yet):
@@ -30,5 +30,6 @@ Allocation failures must preserve the existing logical FIFO.
 
 Path controls narrow frontiers; star stresses sudden growth; diamond/cycle
 checks repeated discovery and unreachable vertices. Later add grids and trees.
-The real-world candidate and acquisition status are in DATASET_DECISION.md.
+The real-world candidate and acquisition status are in the shared
+[DATASET_DECISION.md](../../docs/DATASET_DECISION.md).
 Correctness precedes paired measurements; protocol remains DRAFT until review.

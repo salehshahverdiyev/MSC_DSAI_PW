@@ -2,8 +2,6 @@
 #include "samples.h"
 #include <stdio.h>
 
-/* Display-only mirror of successful BFS events, not another BFS algorithm.
- * The fixed six-slot array is sufficient for this six-vertex star only. */
 typedef struct { int pending[6]; size_t size; bool valid; } QueueDisplay;
 
 static void show_event(BfsEvent event, int vertex, int distance,

@@ -38,7 +38,7 @@ sha256sum data/raw/ssumlinks.txt
 
 Record retrieval date, raw SHA-256 and source attribution. Inspect header and
 full rows; obtain the neuron table via the dataset page (its browser link did
-not load in this session) to account for isolates. Implement a strict C loader
+not load in this session) to account for isolates. Implement a strict loader
 with line diagnostics, comment handling, three-column validation, range checks,
 deterministic ID mapping and stable adjacency ordering. Preserve raw data;
 deduplicate directed pairs and disclose loop policy and before/after counts.

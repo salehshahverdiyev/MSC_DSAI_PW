@@ -4,7 +4,8 @@
 
 This project investigates how different FIFO queue implementations affect the
 performance of Breadth-First Search (BFS) graph traversals. The study is
-implemented from scratch in C and evaluates queue behavior across synthetic
+implemented primarily in Python, with the original C implementation preserved
+in `c_version/` for reference. It evaluates queue behavior across synthetic
 graphs with different structures and real-world network data.
 
 ## Main Objective

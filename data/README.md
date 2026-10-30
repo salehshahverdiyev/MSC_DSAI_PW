@@ -1,8 +1,10 @@
-# Data status
+# Shared graph data
 
-M1 includes no downloaded real-world data and no real-data loader. The demo's
-synthetic path/star/diamond are generated in C in src/samples.c, outside BFS.
-See [DATASET_DECISION.md](../docs/DATASET_DECISION.md) for the NADINE C. elegans
-candidate, source orientation and acquisition/validation plan. Keep raw files
-under data/raw/ (build-independent and Git ignored). Record retrieval date,
-SHA-256, source, preprocessing counts and ID map when acquisition is performed.
+No real-world graph has been downloaded or loaded. The current candidate and
+future acquisition/preprocessing plan are in [DATASET_DECISION.md](../docs/DATASET_DECISION.md).
+Keep future shared raw downloads under data/raw/ (ignored), recording source,
+retrieval date, hash, ID mapping, preprocessing counts and reachability checks.
+
+The previous Python generators are preserved in archive/full_python_m1/generators.py.
+The active prototype uses literal path/star adjacency lists. The preserved
+C data notes are in [c_version/data/README.md](../c_version/data/README.md).

@@ -1,5 +1,8 @@
 # Friday checkpoint — 2026-10-30
 
+Preserved C reference checkpoint. Unqualified `make` commands below run inside
+`c_version/`; from the repository root use `make -C c_version <targets>`.
+
 Six-slide Markdown outline, approximately five minutes. M1 prototype; no final
 defence deck or measured performance charts are claimed.
 
@@ -56,7 +59,7 @@ the leaves then leave the queue in discovery order. Final distances are
 Exact PowerShell learning command:
 
 ```powershell
-wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW walkthrough
+wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW/c_version walkthrough
 ```
 
 Then use the regular demo below to show agreement across all three baselines.
@@ -64,16 +67,16 @@ Then use the regular demo below to show agreement across all three baselines.
 From repository root in Ubuntu/WSL:
 
 ```sh
-make clean
-make all
-make test demo
+make -C c_version clean
+make -C c_version all
+make -C c_version test demo
 ```
 
 Exact development-PC PowerShell commands:
 
 ```powershell
-wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW clean
-wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW all test demo
+wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW/c_version clean
+wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW/c_version all test demo
 ```
 
 One-command demo: the second PowerShell command, or `make test demo` in WSL.
@@ -94,7 +97,8 @@ nonzero on failure. No timing results exist.
 Proposed [NADINE C. elegans](https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/)
 summed neural links: source describes 279 neurons; local counts/loading pending.
 Preserve directed j->i orientation; use positive-weight unweighted projection.
-See DATASET_DECISION.md for provenance, acquisition, hashing and reachability.
+See [DATASET_DECISION.md](../../docs/DATASET_DECISION.md) for provenance,
+acquisition, hashing and reachability.
 
 H1 occupancy-dependent shifts; H2 doubling copy peaks; H3 possible incremental
 copy smoothing at memory/bookkeeping cost; H4 empirical list locality/allocator
