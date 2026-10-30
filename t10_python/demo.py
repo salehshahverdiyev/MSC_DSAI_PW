@@ -1,7 +1,6 @@
 from .queues import ShiftingArrayQueue, CircularArrayQueue
 from .bfs import bfs
 
-
 def main():
     path = [[1], [0, 2], [1, 3], [2, 4], [3, 5], [4]]
     star = [[1, 2, 3, 4, 5], [0], [0], [0], [0], [0]]
