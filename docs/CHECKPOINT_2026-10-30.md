@@ -49,6 +49,18 @@ WSL/GCC 13.3, 2026-10-25. Finite tests are evidence, not exhaustive proof.
 
 ## Slide 5 — Live prototype (70 seconds)
 
+Begin with `make walkthrough` for the actual star FIFO event trace (same BFS,
+circular-doubling queue). Explain that processing 0 discovers five leaves;
+the leaves then leave the queue in discovery order. Final distances are
+`0 1 1 1 1 1`, peak 5. The display follows runtime events; it is not a second BFS.
+Exact PowerShell learning command:
+
+```powershell
+wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW walkthrough
+```
+
+Then use the regular demo below to show agreement across all three baselines.
+
 From repository root in Ubuntu/WSL:
 
 ```sh

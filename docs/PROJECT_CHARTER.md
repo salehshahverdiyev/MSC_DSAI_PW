@@ -24,7 +24,7 @@ Pre-experiment hypotheses (no performance experiments yet):
 
 ADT: FIFO int values copied by value, opaque owned queue, create/destroy,
 enqueue/dequeue/peek, size/is_empty and status-returning capacity query.
-See [queue.h](../src/queue.h) for errors, NULL behavior and output semantics.
+See [queue.h](../include/queue.h) for errors, NULL behavior and output semantics.
 Arrays start with four slots, double on full, do not shrink. List capacity is N/A.
 Allocation failures must preserve the existing logical FIFO.
 

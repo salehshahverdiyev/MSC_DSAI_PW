@@ -12,7 +12,7 @@ Incremental resizing is **NOT IMPLEMENTED**; requesting it returns
 
 | Component | Current status |
 | --- | --- |
-| Common FIFO API | Implemented; ownership/errors in [src/queue.h](src/queue.h) |
+| Common FIFO API | Implemented; ownership/errors in [include/queue.h](include/queue.h) |
 | Shifting array | Implemented; append/double, dequeue shifts remaining items |
 | Singly linked list | Implemented; head/tail; allocation per enqueue; capacity N/A |
 | Circular doubling | Implemented; wrapped FIFO copy on growth, no shrinking |
@@ -21,6 +21,12 @@ Incremental resizing is **NOT IMPLEMENTED**; requesting it returns
 | Fourth queue | Preliminary [design](docs/INCREMENTAL_DESIGN.md), no proven bound yet |
 | Real graph | NADINE C. elegans candidate; acquisition/loader pending |
 | Measurements | Draft protocol only; timing, memory profiler and charts pending |
+
+## Source layout
+
+- `src/`: implementation `.c` files, with queue implementations in `src/queues/`.
+- `include/`: `.h` headers, including the internal queue definitions.
+- `tests/`: correctness test `.c` files.
 
 ## Build, test and demonstrate
 
@@ -32,6 +38,19 @@ were not available on the development PATH. From this repository in Linux/WSL:
 make all
 make test
 make demo
+```
+
+For a short learning trace, run `make walkthrough`. It uses the same BFS on the
+six-vertex star with the circular-doubling queue. Each successful enqueue or
+dequeue emits a real event; the display reconstructs the pending FIFO front to
+back. Watch `[0]` become empty while 0 is processed, then grow to `[1,2,3,4,5]`
+and drain in that order. Final distances are `0 1 1 1 1 1`, peak occupancy 5.
+This is an explanation of BFS, not a benchmark. Normal `make demo` is unchanged.
+
+From PowerShell on this machine:
+
+```powershell
+wsl -d Ubuntu -- make -C /mnt/c/Users/javid/MSC_DSAI_PW walkthrough
 ```
 
 One-command correctness demonstration: `make test demo` (or `make demo` for just
@@ -51,7 +70,7 @@ Additional verification on GCC/Ubuntu:
 
 ```sh
 make test-failures  # GNU linker --wrap fault injection
-make debug         # clean rebuild, ASan/UBSan, tests + fault injection + demo
+make debug         # clean rebuild, ASan/UBSan, tests + fault injection + demo/walkthrough
 make clean         # remove executables before switching back to release flags
 ```
 

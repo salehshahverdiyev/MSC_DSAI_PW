@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <stdint.h>
 #include <stdlib.h>
+/* Each vertex owns a growable array of its outgoing neighbor IDs. */
 typedef struct { int *items; size_t count, capacity; } Adjacency;
 struct Graph { size_t n; bool directed; Adjacency *adj; };
 GraphStatus graph_create(size_t n, bool directed, Graph **out)
@@ -39,6 +40,7 @@ GraphStatus graph_add_edge(Graph *g, int from, int to)
     if (!g || from < 0 || to < 0 || (size_t)from >= g->n || (size_t)to >= g->n)
         return GRAPH_INVALID_ARGUMENT;
     reverse = !g->directed && from != to;
+    /* Reserve both directions before adding either edge: no half-added edge. */
     if (reserve_one(&g->adj[from]) != GRAPH_OK) return GRAPH_NO_MEMORY;
     if (reverse && reserve_one(&g->adj[to]) != GRAPH_OK) return GRAPH_NO_MEMORY;
     g->adj[from].items[g->adj[from].count++] = to;
@@ -52,7 +54,7 @@ const int *graph_neighbors(const Graph *g, int vertex, size_t *count)
     if (count) *count = 0;
     if (!g || !count || vertex < 0 || (size_t)vertex >= g->n) return NULL;
     *count = g->adj[vertex].count;
-    return g->adj[vertex].items;
+    return g->adj[vertex].items; /* Borrowed pointer; caller must not free it. */
 }
 void graph_destroy(Graph *g)
 {

@@ -45,6 +45,40 @@ static void check(const Graph *g, int source, const int *hand)
         }
     }
 }
+/* The observer must see actual FIFO events, without changing BFS results. */
+typedef struct { size_t next; } ObservedTrace;
+static void check_event(BfsEvent event, int vertex, int distance,
+                        size_t size, void *context)
+{
+    static const BfsEvent events[] = {
+        BFS_ENQUEUE, BFS_DEQUEUE, BFS_ENQUEUE, BFS_ENQUEUE, BFS_ENQUEUE, BFS_ENQUEUE,
+        BFS_ENQUEUE, BFS_DEQUEUE, BFS_DEQUEUE, BFS_DEQUEUE, BFS_DEQUEUE, BFS_DEQUEUE
+    };
+    static const int vertices[] = {0,0,1,2,3,4,5,1,2,3,4,5};
+    static const size_t sizes[] = {1,0,1,2,3,4,5,4,3,2,1,0};
+    ObservedTrace *trace = context;
+    assert(trace->next < 12);
+    assert(event == events[trace->next] && vertex == vertices[trace->next]);
+    assert(size == sizes[trace->next] && distance == (vertex == 0 ? 0 : 1));
+    ++trace->next;
+}
+static void check_observer(void)
+{
+    Graph *g = NULL;
+    assert(sample_graph(SAMPLE_STAR, &g) == GRAPH_OK);
+    for (int k = 0; k < 3; ++k) {
+        int actual[6];
+        BfsStats stats;
+        ObservedTrace trace = {0};
+        assert(bfs_observed(g, 0, (QueueKind)k, actual, 6, &stats,
+                            check_event, &trace) == QUEUE_OK);
+        assert(trace.next == 12);
+        for (int i = 0; i < 6; ++i) assert(actual[i] == sample_distances(SAMPLE_STAR)[i]);
+        assert(stats.visited == 6 && stats.enqueue_count == 6);
+        assert(stats.dequeue_count == 6 && stats.frontier_peak == 5);
+    }
+    graph_destroy(g);
+}
 int main(void)
 {
     Graph *g = NULL;
@@ -95,6 +129,8 @@ int main(void)
             graph_destroy(g);
         }
     }
+    check_observer();
     puts("BFS tests: PASS (hand examples, singleton/errors; 100 graphs x 16 sources x 3 queues vs relaxation oracle)");
+    puts("BFS observer tests: PASS (12 star events x 3 queues, FIFO sizes/distances)");
     return 0;
 }

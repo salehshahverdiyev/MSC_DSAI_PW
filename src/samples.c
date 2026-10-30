@@ -3,6 +3,7 @@ GraphStatus sample_graph(SampleKind kind, Graph **out)
 {
     GraphStatus status;
     Graph *g = NULL;
+    /* Diamond has two routes to 3, a cycle back to 0, and isolated vertex 5. */
     const int edges[][2] = {{0,1},{0,2},{1,3},{2,3},{3,0},{3,4}};
     if (!out) return GRAPH_INVALID_ARGUMENT;
     *out = NULL;
@@ -16,7 +17,9 @@ GraphStatus sample_graph(SampleKind kind, Graph **out)
         }
     } else {
         for (int v = 1; v < 6; ++v) {
-            status = graph_add_edge(g, kind == SAMPLE_PATH ? v-1 : 0, v);
+            int parent = 0; /* Star: every leaf connects to the center. */
+            if (kind == SAMPLE_PATH) parent = v - 1;
+            status = graph_add_edge(g, parent, v);
             if (status != GRAPH_OK) goto fail;
         }
     }

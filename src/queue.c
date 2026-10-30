@@ -10,6 +10,7 @@ QueueStatus queue_create(QueueKind kind, Queue **out)
     if (kind == QUEUE_CIRCULAR_INCREMENTAL) return QUEUE_UNSUPPORTED;
     if (kind < QUEUE_SHIFTING_ARRAY || kind > QUEUE_CIRCULAR_DOUBLING)
         return QUEUE_INVALID_ARGUMENT;
+    /* calloc initializes an empty queue; backing storage is owned separately. */
     q = calloc(1, sizeof(*q));
     if (!q) return QUEUE_NO_MEMORY;
     q->kind = kind;
@@ -25,6 +26,7 @@ QueueStatus queue_enqueue(Queue *q, int value)
 {
     if (!q) return QUEUE_INVALID_ARGUMENT;
     if (q->size == SIZE_MAX) return QUEUE_NO_MEMORY;
+    /* One public interface, three independent storage implementations. */
     switch (q->kind) {
     case QUEUE_SHIFTING_ARRAY: return shifting_enqueue(q, value);
     case QUEUE_LINKED_LIST: return linked_enqueue(q, value);
@@ -36,12 +38,16 @@ QueueStatus queue_peek(const Queue *q, int *out)
 {
     if (!q || !out) return QUEUE_INVALID_ARGUMENT;
     if (!q->size) return QUEUE_EMPTY;
-    *out = q->kind == QUEUE_LINKED_LIST ? q->storage.list.head->value :
-        q->storage.array.data[q->storage.array.head];
+    if (q->kind == QUEUE_LINKED_LIST) {
+        *out = q->storage.list.head->value;
+    } else {
+        *out = q->storage.array.data[q->storage.array.head];
+    }
     return QUEUE_OK;
 }
 QueueStatus queue_dequeue(Queue *q, int *out)
 {
+    /* Read/validate first; only a successful read may remove the front item. */
     QueueStatus status = queue_peek(q, out);
     if (status != QUEUE_OK) return status;
     switch (q->kind) {
@@ -64,6 +70,7 @@ QueueStatus queue_capacity(const Queue *q, size_t *out)
 void queue_destroy(Queue *q)
 {
     if (!q) return;
+    /* Free owned elements/backing storage before freeing the queue wrapper. */
     if (q->kind == QUEUE_LINKED_LIST) {
         while (q->size) linked_dequeue(q);
     } else free(q->storage.array.data);

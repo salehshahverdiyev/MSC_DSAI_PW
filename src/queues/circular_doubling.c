@@ -15,14 +15,18 @@ QueueStatus circular_enqueue(Queue *q, int value)
         free(q->storage.array.data);
         q->storage.array.data = data;
         q->storage.array.head = 0;
-        q->storage.array.capacity = capacity *= 2;
+        capacity *= 2;
+        q->storage.array.capacity = capacity;
     }
-    q->storage.array.data[(q->storage.array.head + q->size) % capacity] = value;
+    /* % wraps the logical insertion position back into the allocated array. */
+    size_t tail = (q->storage.array.head + q->size) % capacity;
+    q->storage.array.data[tail] = value;
     ++q->size;
     return QUEUE_OK;
 }
 void circular_dequeue(Queue *q)
 {
     q->storage.array.head = (q->storage.array.head + 1) % q->storage.array.capacity;
-    if (--q->size == 0) q->storage.array.head = 0;
+    --q->size;
+    if (q->size == 0) q->storage.array.head = 0;
 }
