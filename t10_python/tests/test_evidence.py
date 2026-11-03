@@ -1,0 +1,104 @@
+import random
+import tempfile
+import unittest
+from collections import deque
+from pathlib import Path
+from t10_python.queues import BASELINE_QUEUES, ShiftingArrayQueue, CircularArrayQueue, LinkedListQueue
+from t10_python.bfs import bfs
+from t10_python.demo import examples
+from t10_python.dataset import load_worm
+
+
+def reference_distances(graph, start):
+    # Repeated edge relaxation, independent of FIFO and BFS implementation.
+    distances = [-1] * len(graph)
+    distances[start] = 0
+    for _ in range(len(graph) - 1):
+        previous = distances[:]
+        for vertex, neighbors in enumerate(graph):
+            if previous[vertex] < 0:
+                continue
+            for neighbor in neighbors:
+                candidate = previous[vertex] + 1
+                if distances[neighbor] < 0 or candidate < distances[neighbor]:
+                    distances[neighbor] = candidate
+        if previous == distances:
+            break
+    return distances
+
+
+class EvidenceTests(unittest.TestCase):
+    def test_differential_fifo(self):
+        for cls in BASELINE_QUEUES:
+            rng = random.Random(20261103)
+            queue, reference = cls(), deque()
+            for _ in range(1500):
+                if rng.random() < 0.58:
+                    value = rng.choice([None, -2, 0, 7])
+                    queue.enqueue(value)
+                    reference.append(value)
+                elif reference:
+                    self.assertEqual(queue.dequeue(), reference.popleft())
+                else:
+                    with self.assertRaisesRegex(IndexError, "queue is empty"):
+                        queue.dequeue()
+                self.assertEqual(queue.size, len(reference))
+                self.assertEqual(queue.is_empty(), not reference)
+            while reference:
+                self.assertEqual(queue.dequeue(), reference.popleft())
+            if cls is LinkedListQueue:
+                self.assertIsNone(queue.head)
+                self.assertIsNone(queue.tail)
+
+    def test_exact_work(self):
+        for cls in BASELINE_QUEUES:
+            q = cls()
+            for value in range(9):
+                q.enqueue(value)
+            for value in range(9):
+                self.assertEqual(q.dequeue(), value)
+            self.assertEqual(q.max_size, 9)
+            self.assertEqual(q.shifted_elements, 36 if cls is ShiftingArrayQueue else 0)
+            self.assertEqual(q.copied_elements, 0 if cls is LinkedListQueue else 12)
+            self.assertEqual(q.resize_events, 0 if cls is LinkedListQueue else 2)
+            self.assertEqual(q.capacity_history, [] if cls is LinkedListQueue else [4, 8, 16])
+            before = (q.shifted_elements, q.copied_elements, q.resize_events)
+            with self.assertRaises(IndexError):
+                q.dequeue()
+            self.assertEqual(before, (q.shifted_elements, q.copied_elements, q.resize_events))
+
+    def test_bfs_reference(self):
+        rng = random.Random(20261103)
+        graphs = [g for _, g, _ in examples()]
+        graphs += [[[j for j in range(15) if rng.random() < .15] for i in range(15)] for _ in range(10)]
+        for graph in graphs:
+            for source in range(len(graph)):
+                expected = reference_distances(graph, source)
+                for cls in BASELINE_QUEUES:
+                    distances, stats = bfs(graph, source, cls, True)
+                    self.assertEqual(distances, expected)
+                    reachable = sum(d >= 0 for d in expected)
+                    self.assertEqual(stats["enqueues"], reachable)
+                    self.assertEqual(stats["dequeues"], reachable)
+                    self.assertEqual(len(set(stats["visited"])), reachable)
+
+    def test_loader(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "links.txt"
+            path.write_text("// j points to i\n2 1 3\n2 1 2\n3 2 1\n3 3 1\n1 3 0\n")
+            graph, stats = load_worm(path, 4)
+            self.assertEqual(graph, [[1], [2], [2], []])
+            self.assertEqual(stats["duplicates"], 1)
+            self.assertEqual(stats["nonpositive"], 1)
+            for bad in ("1 2", "0 1 2", "1 2 nan", "x 2 1"):
+                path.write_text(bad)
+                with self.assertRaisesRegex(ValueError, "line 1"):
+                    load_worm(path, 4)
+
+    @unittest.skipUnless(Path("data/raw/ssumlinks.txt").exists(), "optional raw dataset absent")
+    def test_real_graph(self):
+        graph, stats = load_worm("data/raw/ssumlinks.txt")
+        for source in (0, max(range(len(graph)), key=lambda v: len(graph[v]))):
+            expected = reference_distances(graph, source)
+            for cls in BASELINE_QUEUES:
+                self.assertEqual(bfs(graph, source, cls), expected)

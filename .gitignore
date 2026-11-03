@@ -32,3 +32,11 @@ vgcore.*
 # Local project planning and presentation files
 GPT_MASTER_BLUEPRINT.md
 CHECKPOINT_SLIDES.md
+
+# Private study notes, portable runtime and raw downloads
+.codex-local/
+.local-tools/
+data/raw/
+__pycache__/
+*.pyc
+!docs/CHECKPOINT_SLIDES.md

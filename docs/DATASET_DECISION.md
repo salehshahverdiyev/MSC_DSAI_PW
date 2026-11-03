@@ -1,59 +1,25 @@
-# Real-world dataset decision (M1 candidate)
+# C. elegans acquisition and validation record
+Downloaded locally on 2026-11-03. Raw file ignored at data/raw/ssumlinks.txt.
 
-Status: **PROPOSED; not downloaded, parsed or traversed locally**.
-Source pages inspected online on 2026-10-25. No locally measured graph counts.
+Sources: https://www.quantware.ups-tlse.fr/FETNADINE/datasets.htm
+and https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/
+Raw: https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt
+Credit V. Kandiah and D. L. Shepelyansky, Google matrix analysis of C.elegans neural network, Phys. Lett. A 378 (2014), 1932; arXiv:1311.2013. The source page asks users to cite the paper and page. Redistribution license not verified; raw remains ignored.
 
-Preferred candidate: C. elegans neural network, following entry 18 of the
-teacher's [FET NADINE collection](https://www.quantware.ups-tlse.fr/FETNADINE/datasets.htm).
-The [dataset page](https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/)
-describes a 279 x 279 matrix and links to synaptic, gap and summed connections.
-Use **summed biological links**, not the dense Google transition matrix G.
-Provenance: V. Kandiah and D. L. Shepelyansky,
-[Google matrix analysis of C.elegans neural network](https://arxiv.org/abs/1311.2013),
-2013 preprint / Physics Letters A 378 (2014), 1932.
+The page describes a 279 x 279 matrix. Actual file header: // sum of links for S matrix (synapse+gap link weights), j points to i
+Actual first row: 2 1 1. Interpret columns i j weight as directed j->i, mapped to zero-based IDs. Weights describe summed synaptic and gap connection weights; BFS retains positive edges and ignores magnitude. This is unweighted hop distance, not weighted shortest paths. Preserve direction and self-loops; deduplicate repeated positive pairs in input order. Declared 279 vertices includes potential isolates; all 279 IDs actually occur in this file. No neuron-name mapping is claimed.
 
-Claimed size: 279 neurons on the source matrix page. Exact unique edge count,
-identifier coverage, self-loops and duplicates remain to be checked after local
-download; no edge-count claim is inferred from a partial browser rendering.
-Small size makes independent verification feasible but may be insufficient to
-stress large queue growth; synthetic graphs will cover that range.
+Local parse: 2990 data rows, 2990 unique directed edges, 279 observed IDs, zero duplicate pairs, zero nonpositive rows, zero self-loops.
+SHA256: 2d553b8ac000d8bebd442369c89480308fce027cfdc98bf824780775d9b78dc5
+From zero-based source 0: 275 reachable, 4 unreachable, peak queue occupancy 169. Every baseline produces identical distances, independently checked by repeated edge relaxation in tests. Array queues execute 252 resize copies and 6 growth events; shifting queue also executes 27728 shifts. These are correctness/work observations, not final experiments.
 
-Raw candidate [ssumlinks.txt](https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt)
-is accessible as text. Its header says **j points to i** and rows contain three
-columns, so treat a row `i j weight` as an edge **j -> i**. Weights represent
-synapse+gap link weights. Example observed first row `2 1 1` maps to 1->2,
-then zero-based IDs 0->1. Verify orientation against the accompanying paper and
-neuron-ID table before freezing the final loader; do not silently transpose it.
-For unweighted BFS retain edges with positive weight, ignore weight magnitude,
-preserve directedness, and disclose this projection. Reachability is source
-dependent; report reachable/total rather than assuming all neurons reachable.
+Native PowerShell acquisition from repository root:
 
-Acquisition plan (future milestone, commands from Linux/WSL repo root):
-
-```sh
-mkdir -p data/raw
-curl --fail --location https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt -o data/raw/ssumlinks.txt
-sha256sum data/raw/ssumlinks.txt
+```powershell
+New-Item -ItemType Directory -Force data/raw
+Invoke-WebRequest -Uri https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt -OutFile data/raw/ssumlinks.txt -TimeoutSec 40
+Get-FileHash data/raw/ssumlinks.txt -Algorithm SHA256
+python -m t10_python.demo --dataset data/raw/ssumlinks.txt
 ```
 
-Record retrieval date, raw SHA-256 and source attribution. Inspect header and
-full rows; obtain the neuron table via the dataset page (its browser link did
-not load in this session) to account for isolates. Implement a strict loader
-with line diagnostics, comment handling, three-column validation, range checks,
-deterministic ID mapping and stable adjacency ordering. Preserve raw data;
-deduplicate directed pairs and disclose loop policy and before/after counts.
-Keep self-loops initially (BFS discovery skips revisits). Validate a hand subset
-and all distances with an independent reference; then compare the three queues.
-Pin mapped sources before comparative timings; report isolated/unreachable nodes.
-The acquisition commands are a plan, not commands run during M1.
-
-Backup only, subject to student/teacher agreement:
-[SNAP Wiki-Vote](https://snap.stanford.edu/data/wiki-Vote.html), directed votes
-between Wikipedia users, not article hyperlinks. Published whole-graph statistics
-are 7,115 nodes / 103,689 edges; these are source claims, not local measurements.
-It is a larger possible complement if the neural graph is too small; no switch
-or download has been made. The SNAP page also supplies a gzip edge-list link.
-
-No dataset redistribution license was verified. Keep raw downloads excluded;
-provide verifiable source/download instructions and attribution. Do not present
-the synthetic samples as real-world observations.
+Sandbox network initially failed; approved network retry succeeded. The raw browser fetch also failed; the dataset page was accessible. A future download must be parsed and hashed again; do not silently assume these counts for changed contents. Normal demo and synthetic tests do not require network or raw data.
