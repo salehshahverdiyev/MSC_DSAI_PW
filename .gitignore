@@ -1,5 +1,34 @@
-/c_version/build/
-/data/raw/
-/c_version/data/raw/
+# C build outputs
+build/
+bin/
 *.o
+*.obj
+*.a
+*.so
+*.dll
+*.exe
+
+# Generated benchmark data and plots
+benchmarks/results/
+benchmarks/*.csv
+benchmarks/*.json
+slides/plots/
+
+# Tool and editor files
+.vscode/
 .idea/
+*.swp
+*.swo
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Runtime diagnostics
+core
+core.*
+vgcore.*
+
+# Local project planning and presentation files
+GPT_MASTER_BLUEPRINT.md
+CHECKPOINT_SLIDES.md
