@@ -3,11 +3,11 @@ import tempfile
 import unittest
 from collections import deque
 from pathlib import Path
-from t10_python.queues import BASELINE_QUEUES, ShiftingArrayQueue, CircularArrayQueue, LinkedListQueue
-from t10_python.bfs import bfs
-from t10_python.demo import examples
-from t10_python.dataset import load_worm
-from t10_python.graph import path_graph, star_graph, tree_graph, grid_graph
+from t10.queues import BASELINE_QUEUES, ShiftingArrayQueue, CircularArrayQueue, LinkedListQueue
+from t10.bfs import bfs
+from t10.demo import examples
+from t10.graph import load_worm
+from t10.graph import path_graph, star_graph, tree_graph, grid_graph
 
 
 def reference_distances(graph, start):

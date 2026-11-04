@@ -2,7 +2,7 @@
 import argparse
 from .queues import BASELINE_QUEUES
 from .bfs import bfs
-from .graph import path_graph, star_graph, tree_graph, grid_graph
+from .graph import path_graph, star_graph, tree_graph, grid_graph, load_worm
 
 
 def examples():
@@ -38,8 +38,11 @@ def main():
     for name, graph, expected in examples():
         compare(name, graph, expected)
     if args.dataset:
-        from .dataset import load_worm
-        graph, summary = load_worm(args.dataset)
+        try:
+            graph, summary = load_worm(args.dataset)
+        except (OSError, ValueError) as error:
+            parser.error(f"Cannot load dataset {args.dataset}: {error}. "
+                         "See RUN.txt for local download instructions.")
         print(summary)
         compare("C. elegans", graph, bfs(graph, 0, BASELINE_QUEUES[0]), compact=True)
 

@@ -1,7 +1,7 @@
 import unittest
 
-from t10_python.queues import ShiftingArrayQueue, CircularArrayQueue, BASELINE_QUEUES
-from t10_python.bfs import bfs
+from t10.queues import ShiftingArrayQueue, CircularArrayQueue, BASELINE_QUEUES
+from t10.bfs import bfs
 
 
 class BasicTests(unittest.TestCase):

@@ -1,3 +1,6 @@
+# All Markdown documents remain local only
+*.md
+
 # Private instructions, prompts, study notes and project state
 .codex-local/
 .codex/
@@ -54,10 +57,10 @@ bin/
 *.pyd
 
 # Raw third-party data: redistribution permission unconfirmed
-# Acquisition, attribution and expected hash are documented in data/README.md.
+# Acquisition, attribution and expected hash are documented in RUN.txt.
 data/raw/
 
-# Generated experimental output; preserve protocols and presentation Markdown
+# Generated experimental output; protocols and presentations remain local
 benchmarks/results/
 benchmarks/*.csv
 benchmarks/*.json

@@ -1,0 +1,44 @@
+T10 - Implementing a Queue
+Javidan Hajizada and Saleh Shahverdiyev, UFAZ M1; Professor Pavel.
+
+We investigate queue work, operation time and memory in BFS on synthetic and
+real graphs, including frontier growth and resizing spikes. Three baselines
+are implemented. Incremental resizing, final timing/memory experiments and
+statistical analysis remain unfinished; the protocol is DRAFT. Explicit
+approval of Python from Pavel is still unconfirmed.
+
+Use Python 3.10+ and the standard library (tested with CPython 3.13.1).
+Run from the repository root:
+  python -m t10.demo
+  python -m unittest discover -s t10/tests -v
+  python -m t10.demo --dataset data/raw/ssumlinks.txt
+If the Windows python alias fails, this PC has a local portable runtime:
+  ./.local-tools/python/python.exe -m t10.demo
+Use that executable in place of python in the other commands too.
+
+Dataset: C. elegans summed neural links. Download once if absent; no automatic
+network requests occur during execution. Keep data/raw/ssumlinks.txt local:
+https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt
+PowerShell, from the repository root (does not overwrite an existing file):
+  New-Item -ItemType Directory -Force data/raw | Out-Null
+  if (!(Test-Path data/raw/ssumlinks.txt)) { Invoke-WebRequest -Uri https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt -OutFile data/raw/ssumlinks.txt -TimeoutSec 40 }
+
+Verified file: 279 vertices, 2990 directed edges; 275 reachable from source 0.
+Columns i j weight mean j -> i, with 1-based IDs mapped to 0-based IDs.
+Positive weights become unweighted edges: BFS measures hops, not weight sums.
+SHA256: 2d553b8ac000d8bebd442369c89480308fce027cfdc98bf824780775d9b78dc5
+Data credit: V. Kandiah and D. L. Shepelyansky, Google matrix analysis of
+C.elegans neural network, Phys. Lett. A 378 (2014), 1932; arXiv:1311.2013.
+Source page: https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/
+Redistribution permission is unconfirmed; raw data is ignored by Git.
+
+Files:
+  t10/queues.py - shifting array, linked list and circular doubling; work counters.
+  t10/graph.py  - path/star/tree/grid generators and local load_worm loader.
+  t10/bfs.py    - one BFS for every queue, distances and optional diagnostics.
+  t10/demo.py   - small hand-checked demonstrations and optional real graph.
+  t10/tests/   - deterministic FIFO, independent distances and loader checks.
+Counters report executed shifts/copies, resize events, occupancy and capacities;
+they are not timing or memory benchmarks. Local Markdown under docs/ contains
+checkpoint materials, hypotheses, a draft protocol and incremental design.
+Markdown and private study notes remain local and are excluded from Git.
