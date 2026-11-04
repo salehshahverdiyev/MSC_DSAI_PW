@@ -1,4 +1,6 @@
 # Python experiment protocol v0.1 — DRAFT, NOT FROZEN
+Python is the intended language; explicit approval from Professor Pavel is unconfirmed.
+
 No final timing or memory experiments have been run. Correctness demos and work counts are not timing pilots.
 
 ## Hypotheses recorded before timing

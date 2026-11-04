@@ -2,14 +2,15 @@
 import argparse
 from .queues import BASELINE_QUEUES
 from .bfs import bfs
+from .graph import path_graph, star_graph, tree_graph, grid_graph
 
 
 def examples():
     return [
-        ("Path", [[1], [0, 2], [1, 3], [2, 4], [3, 5], [4]], [0, 1, 2, 3, 4, 5]),
-        ("Star", [[1, 2, 3, 4, 5], [0], [0], [0], [0], [0]], [0, 1, 1, 1, 1, 1]),
-        ("Binary tree", [[1, 2], [0, 3, 4], [0, 5, 6], [1], [1], [2], [2]],
-         [0, 1, 1, 2, 2, 2, 2]),
+        ("Path", path_graph(6), [0, 1, 2, 3, 4, 5]),
+        ("Star", star_graph(6), [0, 1, 1, 1, 1, 1]),
+        ("Binary tree", tree_graph(7), [0, 1, 1, 2, 2, 2, 2]),
+        ("Grid 2x3", grid_graph(2, 3), [0, 1, 2, 1, 2, 3]),
     ]
 
 

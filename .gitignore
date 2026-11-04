@@ -1,42 +1,64 @@
-# C build outputs
+# Private instructions, prompts, study notes and project state
+.codex-local/
+.codex/
+.agents/
+AGENTS.md
+AGENTS.override.md
+GPT_MASTER_BLUEPRINT.md
+*WORKING_PROMPT*.md
+*PRIVATE_PLAN*.md
+*PROJECT_STATE*.md
+STUDY_GUIDE*.md
+*.docx
+
+# Local Python runtime, environments and secrets
+.local-tools/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Python and tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+htmlcov/
+
+# Personal editors and temporary files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Generated binaries and build output
 build/
+dist/
 bin/
+*.egg-info/
 *.o
 *.obj
 *.a
 *.so
 *.dll
 *.exe
+*.pyd
 
-# Generated benchmark data and plots
+# Raw third-party data: redistribution permission unconfirmed
+# Acquisition, attribution and expected hash are documented in data/README.md.
+data/raw/
+
+# Generated experimental output; preserve protocols and presentation Markdown
 benchmarks/results/
 benchmarks/*.csv
 benchmarks/*.json
 slides/plots/
-
-# Tool and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Operating-system files
-.DS_Store
-Thumbs.db
-
-# Runtime diagnostics
-core
-core.*
-vgcore.*
-
-# Local project planning and presentation files
-GPT_MASTER_BLUEPRINT.md
-CHECKPOINT_SLIDES.md
-
-# Private study notes, portable runtime and raw downloads
-.codex-local/
-.local-tools/
-data/raw/
-__pycache__/
-*.pyc
-!docs/CHECKPOINT_SLIDES.md

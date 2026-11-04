@@ -7,6 +7,7 @@ from t10_python.queues import BASELINE_QUEUES, ShiftingArrayQueue, CircularArray
 from t10_python.bfs import bfs
 from t10_python.demo import examples
 from t10_python.dataset import load_worm
+from t10_python.graph import path_graph, star_graph, tree_graph, grid_graph
 
 
 def reference_distances(graph, start):
@@ -82,6 +83,22 @@ class EvidenceTests(unittest.TestCase):
                     self.assertEqual(stats["dequeues"], reachable)
                     self.assertEqual(len(set(stats["visited"])), reachable)
 
+    def test_graph_generators(self):
+        self.assertEqual(path_graph(4), [[1], [0, 2], [1, 3], [2]])
+        self.assertEqual(star_graph(4), [[1, 2, 3], [0], [0], [0]])
+        self.assertEqual(tree_graph(5), [[1, 2], [0, 3, 4], [0], [1], [1]])
+        self.assertEqual(grid_graph(2, 2), [[1, 2], [0, 3], [0, 3], [1, 2]])
+        self.assertEqual(grid_graph(1, 1), [[]])
+        for generator in (path_graph, star_graph, tree_graph):
+            self.assertEqual(generator(0), [])
+            self.assertEqual(generator(1), [[]])
+            for invalid in (-1, 1.5, True):
+                with self.assertRaises(ValueError):
+                    generator(invalid)
+        for dimensions in ((0, 2), (2, -1), (1.5, 2)):
+            with self.assertRaises(ValueError):
+                grid_graph(*dimensions)
+
     def test_loader(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "links.txt"
@@ -90,7 +107,11 @@ class EvidenceTests(unittest.TestCase):
             self.assertEqual(graph, [[1], [2], [2], []])
             self.assertEqual(stats["duplicates"], 1)
             self.assertEqual(stats["nonpositive"], 1)
-            for bad in ("1 2", "0 1 2", "1 2 nan", "x 2 1"):
+            for empty in ("", "// comments only\n"):
+                path.write_text(empty)
+                with self.assertRaisesRegex(ValueError, "no connection rows"):
+                    load_worm(path, 4)
+            for bad in ("<html>error</html>", "1 2", "0 1 2", "1 2 nan", "x 2 1"):
                 path.write_text(bad)
                 with self.assertRaisesRegex(ValueError, "line 1"):
                     load_worm(path, 4)

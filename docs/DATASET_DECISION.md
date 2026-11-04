@@ -1,5 +1,5 @@
 # C. elegans acquisition and validation record
-Downloaded locally on 2026-11-03. Raw file ignored at data/raw/ssumlinks.txt.
+Downloaded locally on 2026-11-03; revalidated during cleanup on 2026-11-04 (27,256 bytes). Raw file ignored at data/raw/ssumlinks.txt.
 
 Sources: https://www.quantware.ups-tlse.fr/FETNADINE/datasets.htm
 and https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/

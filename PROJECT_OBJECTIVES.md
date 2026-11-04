@@ -4,8 +4,9 @@
 
 This project investigates how different FIFO queue implementations affect the
 performance of Breadth-First Search (BFS) graph traversals. The study is
-implemented primarily in Python, with the original C implementation preserved
-in `c_version/` for reference. It evaluates queue behavior across synthetic
+intended to use Python, subject to explicit approval from Professor Pavel.
+The historical C and archived Python versions are recoverable from Git commit
+`67559fc98fa604b45f59644d9a5b29a4b4a9213e`; they are absent from the active tree. It evaluates queue behavior across synthetic
 graphs with different structures and real-world network data.
 
 ## Main Objective
@@ -29,9 +30,9 @@ by BFS, determining how their designs affect:
      element migration.
 
 2. **Provide a common and reliable interface**
-   - Define shared queue operations for enqueue, dequeue, peek, size,
-     capacity, emptiness checks, and destruction.
-   - Use consistent status codes and error handling across implementations.
+   - Keep the shared Python enqueue, dequeue and is_empty interface, with
+     size and capacity fields (capacity is None for linked nodes).
+   - Raise IndexError consistently on empty removal; Python manages storage.
    - Preserve FIFO behavior for every queue, including empty-queue and
      wrap-around cases.
 
@@ -80,7 +81,7 @@ by BFS, determining how their designs affect:
      implementations produce identical BFS distance results.
 
 9. **Ensure experimental rigor and reproducibility**
-   - Use controlled compiler settings, fixed random seeds, and documented
+   - Record Python interpreter version and runtime settings, fixed random seeds, and documented
      graph instances.
    - Separate graph construction and other setup work from timed regions.
    - Perform warm-up runs and repeated timed runs.

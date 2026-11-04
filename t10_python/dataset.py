@@ -39,6 +39,8 @@ def load_worm(filename, vertex_count=279):
             continue
         seen.add(edge)
         graph[edge[0]].append(edge[1])
+    if rows == 0:
+        raise ValueError("dataset contains no connection rows")
     return graph, {"vertices": vertex_count, "observed_ids": len(identifiers),
                    "rows": rows, "edges": len(seen), "duplicates": duplicates,
                    "nonpositive": nonpositive,
