@@ -1,5 +1,7 @@
 # All Markdown documents remain local only
 *.md
+!README.md
+!t10/README.md
 
 # Private instructions, prompts, study notes and project state
 .codex-local/

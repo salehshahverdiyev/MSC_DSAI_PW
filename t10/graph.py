@@ -101,3 +101,52 @@ def load_worm(filename, vertex_count=279):
                    "nonpositive": nonpositive,
                    "self_loops": sum(a == b for a, b in seen),
                    "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def load_brainlinks(filename, edge_limit=100):
+    """Load a bounded, compact sample from a two-column directed edge list.
+
+    The returned graph contains only vertices occurring in the first
+    ``edge_limit`` unique edges.  ``summary["labels"]`` maps compact vertex
+    indexes back to the IDs in the source file.
+    """
+    if type(edge_limit) is not int or edge_limit < 1:
+        raise ValueError("edge_limit must be a positive integer")
+
+    edges = []
+    seen = set()
+    rows = 0
+    duplicates = 0
+    with Path(filename).open(encoding="ascii") as stream:
+        for number, line in enumerate(stream, 1):
+            if len(edges) >= edge_limit:
+                break
+            if not line.strip():
+                continue
+            fields = line.split()
+            if len(fields) != 2:
+                raise ValueError(f"line {number}: expected two columns")
+            try:
+                source, target = (int(value) for value in fields)
+            except ValueError as error:
+                raise ValueError(f"line {number}: vertex IDs must be integers") from error
+            if source < 0 or target < 0:
+                raise ValueError(f"line {number}: vertex IDs must be nonnegative")
+            rows += 1
+            edge = (source, target)
+            if edge in seen:
+                duplicates += 1
+                continue
+            seen.add(edge)
+            edges.append(edge)
+
+    if not edges:
+        raise ValueError("dataset contains no connection rows")
+
+    labels = sorted({vertex for edge in edges for vertex in edge})
+    indexes = {label: index for index, label in enumerate(labels)}
+    graph = [[] for _ in labels]
+    for source, target in edges:
+        graph[indexes[source]].append(indexes[target])
+    return graph, {"vertices": len(labels), "edges": len(edges),
+                   "rows": rows, "duplicates": duplicates, "labels": labels}

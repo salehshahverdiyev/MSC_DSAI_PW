@@ -3,11 +3,15 @@ import tempfile
 import unittest
 from collections import deque
 from pathlib import Path
-from t10.queues import BASELINE_QUEUES, ShiftingArrayQueue, CircularArrayQueue, LinkedListQueue
+from t10.queues import (BASELINE_QUEUES, CircularArrayQueue,
+                        IncrementalCircularArrayQueue, LinkedListQueue,
+                        ShiftingArrayQueue)
 from t10.bfs import bfs
 from t10.demo import examples
 from t10.graph import load_worm
+from t10.graph import load_brainlinks
 from t10.graph import path_graph, star_graph, tree_graph, grid_graph
+from t10.real_demo import measure_bfs, real_data_shapes, write_svg
 
 
 def reference_distances(graph, start):
@@ -60,9 +64,22 @@ class EvidenceTests(unittest.TestCase):
                 self.assertEqual(q.dequeue(), value)
             self.assertEqual(q.max_size, 9)
             self.assertEqual(q.shifted_elements, 36 if cls is ShiftingArrayQueue else 0)
-            self.assertEqual(q.copied_elements, 0 if cls is LinkedListQueue else 12)
-            self.assertEqual(q.resize_events, 0 if cls is LinkedListQueue else 2)
-            self.assertEqual(q.capacity_history, [] if cls is LinkedListQueue else [4, 8, 16])
+            expected_copies = (
+                0 if cls is LinkedListQueue
+                else 4 if cls is IncrementalCircularArrayQueue
+                else 12
+            )
+            expected_resizes = 0 if cls is LinkedListQueue else (
+                1 if cls is IncrementalCircularArrayQueue else 2
+            )
+            expected_history = (
+                [] if cls is LinkedListQueue
+                else [4, 8] if cls is IncrementalCircularArrayQueue
+                else [4, 8, 16]
+            )
+            self.assertEqual(q.copied_elements, expected_copies)
+            self.assertEqual(q.resize_events, expected_resizes)
+            self.assertEqual(q.capacity_history, expected_history)
             before = (q.shifted_elements, q.copied_elements, q.resize_events)
             with self.assertRaises(IndexError):
                 q.dequeue()
@@ -115,6 +132,37 @@ class EvidenceTests(unittest.TestCase):
                 path.write_text(bad)
                 with self.assertRaisesRegex(ValueError, "line 1"):
                     load_worm(path, 4)
+
+    def test_brainlinks_loader_compacts_sample(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "brainlinks.dat"
+            path.write_text("10 20\n10 20\n20 30\n")
+            graph, stats = load_brainlinks(path, 2)
+            self.assertEqual(graph, [[1], [2], []])
+            self.assertEqual(stats["labels"], [10, 20, 30])
+            self.assertEqual(stats["duplicates"], 1)
+
+    def test_real_demo_metrics_and_svg(self):
+        graph = [[1], [2], []]
+        distances, stats = measure_bfs(graph, CircularArrayQueue)
+        self.assertEqual(distances, [0, 1, 2])
+        self.assertGreaterEqual(stats["time_seconds"], 0)
+        self.assertGreater(stats["peak_bytes"], 0)
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "graph.svg"
+            write_svg(graph, distances, [10, 20, 30], output)
+            content = output.read_text(encoding="utf-8")
+            self.assertIn("<svg", content)
+            self.assertIn("BFS graph", content)
+
+    def test_real_data_shapes_use_sample_labels(self):
+        labels = list(range(40, 80))
+        shapes = real_data_shapes(labels)
+        self.assertEqual([name for name, _ in shapes],
+                         ["Brainlinks Path", "Brainlinks Star",
+                          "Brainlinks Binary tree", "Brainlinks Grid 5x8"])
+        for _, graph in shapes:
+            self.assertEqual(len(graph), 40)
 
     @unittest.skipUnless(Path("data/raw/ssumlinks.txt").exists(), "optional raw dataset absent")
     def test_real_graph(self):
