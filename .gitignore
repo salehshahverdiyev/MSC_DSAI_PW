@@ -1,0 +1,69 @@
+# All Markdown documents remain local only
+*.md
+!README.md
+!t10/README.md
+
+# Private instructions, prompts, study notes and project state
+.codex-local/
+.codex/
+.agents/
+AGENTS.md
+AGENTS.override.md
+GPT_MASTER_BLUEPRINT.md
+*WORKING_PROMPT*.md
+*PRIVATE_PLAN*.md
+*PROJECT_STATE*.md
+STUDY_GUIDE*.md
+*.docx
+
+# Local Python runtime, environments and secrets
+.local-tools/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Python and tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+htmlcov/
+
+# Personal editors and temporary files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# Generated binaries and build output
+build/
+dist/
+bin/
+*.egg-info/
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.exe
+*.pyd
+
+# Raw third-party data: redistribution permission unconfirmed
+# Acquisition, attribution and expected hash are documented in RUN.txt.
+data/raw/
+
+# Generated experimental output; protocols and presentations remain local
+benchmarks/results/
+benchmarks/*.csv
+benchmarks/*.json
+slides/plots/
