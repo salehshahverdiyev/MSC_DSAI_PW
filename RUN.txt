@@ -7,15 +7,17 @@ implementations are available: shifting array, linked list, circular doubling,
 and incremental circular resizing. Final statistical timing/memory experiments
 remain a protocol task.
 
-Use Python 3.10+ and the standard library (tested with CPython 3.13.1).
+Use Python 3.10+ and the standard library.
 Run from the repository root:
   python -m t10.demo
   python -m unittest discover -s t10/tests -v
-  python -m t10.demo --dataset data/raw/ssumlinks.txt
   python -m t10.real_demo --dataset brainlinks.dat --edges 40
-If the Windows python alias fails, this PC has a local portable runtime:
-  ./.local-tools/python/python.exe -m t10.demo
+  python -m t10.real_demo --dataset brainlinks.dat --edges 1000 --no-svg
+If python is unavailable, use an installed Python 3.10+ runtime or, if present,
+  ./.venv/Scripts/python.exe -m t10.demo
 Use that executable in place of python in the other commands too.
+Optional, only if the C. elegans file is already available:
+  python -m t10.demo --dataset data/raw/ssumlinks.txt
 
 Dataset: C. elegans summed neural links. Download once if absent; no automatic
 network requests occur during execution. Keep data/raw/ssumlinks.txt local:
@@ -24,7 +26,8 @@ PowerShell, from the repository root (does not overwrite an existing file):
   New-Item -ItemType Directory -Force data/raw | Out-Null
   if (!(Test-Path data/raw/ssumlinks.txt)) { Invoke-WebRequest -Uri https://www.quantware.ups-tlse.fr/QWLIB/wormgooglematrix/ssumlinks.txt -OutFile data/raw/ssumlinks.txt -TimeoutSec 40 }
 
-Verified file: 279 vertices, 2990 directed edges; 275 reachable from source 0.
+Expected C. elegans metadata (file currently absent; not reverified):
+279 vertices, 2990 directed edges; 275 reachable from source 0.
 Columns i j weight mean j -> i, with 1-based IDs mapped to 0-based IDs.
 Positive weights become unweighted edges: BFS measures hops, not weight sums.
 SHA256: 2d553b8ac000d8bebd442369c89480308fce027cfdc98bf824780775d9b78dc5
@@ -40,16 +43,19 @@ Files:
   t10/demo.py   - small hand-checked demonstrations and optional real graph.
   t10/tests/   - deterministic FIFO, independent distances and loader checks.
 Counters report executed shifts/copies, resize events, occupancy and capacities;
-they are not timing or memory benchmarks. Local Markdown under docs/ contains
-checkpoint materials, hypotheses, a draft protocol and incremental design.
-Markdown and private study notes remain local and are excluded from Git.
+they are not timing or memory benchmarks. The current checkout has no docs/ folder.
 
-The real-data demo uses 40 real Brainlinks vertex IDs as labels for transformed
-Path, Star, Binary tree, and Grid 5x8 graph shapes, then also compares the
-original bounded Brainlinks edge sample. It measures BFS wall time, peak traced
-Python memory, queue work counters, and writes one dependency-free SVG
-visualization per graph into
-`bfs_visualizations/` by default. Use `--output-dir` to change that directory.
-The measurements are illustrative for the selected sample, not a full-scale
-benchmark. BFS uses O(V + E) time and O(V) auxiliary space; adjacency storage
-is O(V + E).
+The real-data demo compares four independent synthetic shapes (40-vertex Path,
+Star, Binary tree, Grid 5x8) and a genuine directed Brainlinks edge sample.
+Synthetic vertices use ordinary 0-based labels; only the real sample uses
+original Brainlinks IDs. Default: first 40 unique edges (40 vertices).
+The local file has 1,960,108 rows, 957,853 unique directed edges, 10,000 vertices.
+Use --edges 1000 --no-svg for a larger checkpoint sample without drawing it.
+The demo prints aligned algorithmic work counters, not timing benchmarks.
+SVG files go to bfs_visualizations/ unless --output-dir is supplied; --no-svg
+skips file generation. The existing measure_bfs helper remains available for
+illustrative whole-run time and traced memory, not single-operation benchmarks.
+Graph storage is O(V + E). BFS has O(V) auxiliary space; O(V + E) traversal time
+assumes constant-time queue operations and does not cover shifting-queue work.
+Incremental pending-buffer growth can copy all pending items in one operation;
+worst-case O(1) has not been established.

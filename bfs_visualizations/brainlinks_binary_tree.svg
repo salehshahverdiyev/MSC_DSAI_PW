@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<title>Brainlinks Binary tree</title>
+<rect width="100%" height="100%" fill="white"/>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#64748b"/></marker></defs>
+<line x1="600.0" y1="60.0" x2="400.0" y2="188.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="600.0" y1="60.0" x2="800.0" y2="188.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="400.0" y1="188.0" x2="600.0" y2="60.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="400.0" y1="188.0" x2="240.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="400.0" y1="188.0" x2="480.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="800.0" y1="188.0" x2="600.0" y2="60.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="800.0" y1="188.0" x2="720.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="800.0" y1="188.0" x2="960.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="240.0" y1="316.0" x2="400.0" y2="188.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="240.0" y1="316.0" x2="133.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="240.0" y1="316.0" x2="266.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="480.0" y1="316.0" x2="400.0" y2="188.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="480.0" y1="316.0" x2="400.0" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="480.0" y1="316.0" x2="533.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="720.0" y1="316.0" x2="800.0" y2="188.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="720.0" y1="316.0" x2="666.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="720.0" y1="316.0" x2="800.0" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="960.0" y1="316.0" x2="800.0" y2="188.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="960.0" y1="316.0" x2="933.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="960.0" y1="316.0" x2="1066.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="133.3" y1="444.0" x2="240.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="133.3" y1="444.0" x2="70.6" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="133.3" y1="444.0" x2="141.2" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="266.7" y1="444.0" x2="240.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="266.7" y1="444.0" x2="211.8" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="266.7" y1="444.0" x2="282.4" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="400.0" y1="444.0" x2="480.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="400.0" y1="444.0" x2="352.9" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="400.0" y1="444.0" x2="423.5" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="533.3" y1="444.0" x2="480.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="533.3" y1="444.0" x2="494.1" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="533.3" y1="444.0" x2="564.7" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="666.7" y1="444.0" x2="720.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="666.7" y1="444.0" x2="635.3" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="666.7" y1="444.0" x2="705.9" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="800.0" y1="444.0" x2="720.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="800.0" y1="444.0" x2="776.5" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="800.0" y1="444.0" x2="847.1" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="933.3" y1="444.0" x2="960.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="933.3" y1="444.0" x2="917.6" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="933.3" y1="444.0" x2="988.2" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="1066.7" y1="444.0" x2="960.0" y2="316.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="1066.7" y1="444.0" x2="1058.8" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="1066.7" y1="444.0" x2="1129.4" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="70.6" y1="572.0" x2="133.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="70.6" y1="572.0" x2="120.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="70.6" y1="572.0" x2="240.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="141.2" y1="572.0" x2="133.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="141.2" y1="572.0" x2="360.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="141.2" y1="572.0" x2="480.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="211.8" y1="572.0" x2="266.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="211.8" y1="572.0" x2="600.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="211.8" y1="572.0" x2="720.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="282.4" y1="572.0" x2="266.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="282.4" y1="572.0" x2="840.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="282.4" y1="572.0" x2="960.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="352.9" y1="572.0" x2="400.0" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="352.9" y1="572.0" x2="1080.0" y2="700.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="423.5" y1="572.0" x2="400.0" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="494.1" y1="572.0" x2="533.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="564.7" y1="572.0" x2="533.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="635.3" y1="572.0" x2="666.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="705.9" y1="572.0" x2="666.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="776.5" y1="572.0" x2="800.0" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="847.1" y1="572.0" x2="800.0" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="917.6" y1="572.0" x2="933.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="988.2" y1="572.0" x2="933.3" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="1058.8" y1="572.0" x2="1066.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="1129.4" y1="572.0" x2="1066.7" y2="444.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="120.0" y1="700.0" x2="70.6" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="240.0" y1="700.0" x2="70.6" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="360.0" y1="700.0" x2="141.2" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="480.0" y1="700.0" x2="141.2" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="600.0" y1="700.0" x2="211.8" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="720.0" y1="700.0" x2="211.8" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="840.0" y1="700.0" x2="282.4" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="960.0" y1="700.0" x2="282.4" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<line x1="1080.0" y1="700.0" x2="352.9" y2="572.0" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrow)"/>
+<circle cx="600.0" cy="60.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="600.0" y="64.0" text-anchor="middle" font-size="9" fill="white">0</text>
+<circle cx="400.0" cy="188.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="400.0" y="192.0" text-anchor="middle" font-size="9" fill="white">48</text>
+<circle cx="800.0" cy="188.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="800.0" y="192.0" text-anchor="middle" font-size="9" fill="white">342</text>
+<circle cx="240.0" cy="316.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="240.0" y="320.0" text-anchor="middle" font-size="9" fill="white">732</text>
+<circle cx="480.0" cy="316.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="480.0" y="320.0" text-anchor="middle" font-size="9" fill="white">876</text>
+<circle cx="720.0" cy="316.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="720.0" y="320.0" text-anchor="middle" font-size="9" fill="white">910</text>
+<circle cx="960.0" cy="316.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="960.0" y="320.0" text-anchor="middle" font-size="9" fill="white">962</text>
+<circle cx="133.3" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="133.3" y="448.0" text-anchor="middle" font-size="9" fill="white">1304</text>
+<circle cx="266.7" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="266.7" y="448.0" text-anchor="middle" font-size="9" fill="white">1569</text>
+<circle cx="400.0" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="400.0" y="448.0" text-anchor="middle" font-size="9" fill="white">1714</text>
+<circle cx="533.3" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="533.3" y="448.0" text-anchor="middle" font-size="9" fill="white">1902</text>
+<circle cx="666.7" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="666.7" y="448.0" text-anchor="middle" font-size="9" fill="white">1910</text>
+<circle cx="800.0" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="800.0" y="448.0" text-anchor="middle" font-size="9" fill="white">1926</text>
+<circle cx="933.3" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="933.3" y="448.0" text-anchor="middle" font-size="9" fill="white">1994</text>
+<circle cx="1066.7" cy="444.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="1066.7" y="448.0" text-anchor="middle" font-size="9" fill="white">2299</text>
+<circle cx="70.6" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="70.6" y="576.0" text-anchor="middle" font-size="9" fill="white">2370</text>
+<circle cx="141.2" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="141.2" y="576.0" text-anchor="middle" font-size="9" fill="white">2518</text>
+<circle cx="211.8" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="211.8" y="576.0" text-anchor="middle" font-size="9" fill="white">2555</text>
+<circle cx="282.4" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="282.4" y="576.0" text-anchor="middle" font-size="9" fill="white">2800</text>
+<circle cx="352.9" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="352.9" y="576.0" text-anchor="middle" font-size="9" fill="white">3259</text>
+<circle cx="423.5" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="423.5" y="576.0" text-anchor="middle" font-size="9" fill="white">3266</text>
+<circle cx="494.1" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="494.1" y="576.0" text-anchor="middle" font-size="9" fill="white">3283</text>
+<circle cx="564.7" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="564.7" y="576.0" text-anchor="middle" font-size="9" fill="white">3308</text>
+<circle cx="635.3" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="635.3" y="576.0" text-anchor="middle" font-size="9" fill="white">3444</text>
+<circle cx="705.9" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="705.9" y="576.0" text-anchor="middle" font-size="9" fill="white">5328</text>
+<circle cx="776.5" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="776.5" y="576.0" text-anchor="middle" font-size="9" fill="white">5350</text>
+<circle cx="847.1" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="847.1" y="576.0" text-anchor="middle" font-size="9" fill="white">5374</text>
+<circle cx="917.6" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="917.6" y="576.0" text-anchor="middle" font-size="9" fill="white">5388</text>
+<circle cx="988.2" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="988.2" y="576.0" text-anchor="middle" font-size="9" fill="white">5724</text>
+<circle cx="1058.8" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="1058.8" y="576.0" text-anchor="middle" font-size="9" fill="white">5824</text>
+<circle cx="1129.4" cy="572.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="1129.4" y="576.0" text-anchor="middle" font-size="9" fill="white">5864</text>
+<circle cx="120.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="120.0" y="704.0" text-anchor="middle" font-size="9" fill="white">5871</text>
+<circle cx="240.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="240.0" y="704.0" text-anchor="middle" font-size="9" fill="white">5908</text>
+<circle cx="360.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="360.0" y="704.0" text-anchor="middle" font-size="9" fill="white">5932</text>
+<circle cx="480.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="480.0" y="704.0" text-anchor="middle" font-size="9" fill="white">6019</text>
+<circle cx="600.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="600.0" y="704.0" text-anchor="middle" font-size="9" fill="white">6066</text>
+<circle cx="720.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="720.0" y="704.0" text-anchor="middle" font-size="9" fill="white">7376</text>
+<circle cx="840.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="840.0" y="704.0" text-anchor="middle" font-size="9" fill="white">8998</text>
+<circle cx="960.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="960.0" y="704.0" text-anchor="middle" font-size="9" fill="white">9105</text>
+<circle cx="1080.0" cy="700.0" r="16" fill="#2563eb" stroke="#1e293b"/>
+<text x="1080.0" y="704.0" text-anchor="middle" font-size="9" fill="white">9205</text>
+<text x="20" y="30" font-size="18" font-family="sans-serif">Brainlinks Binary tree: BFS-reachable vertices in blue</text>
+</svg>

@@ -11,7 +11,7 @@ from t10.demo import examples
 from t10.graph import load_worm
 from t10.graph import load_brainlinks
 from t10.graph import path_graph, star_graph, tree_graph, grid_graph
-from t10.real_demo import measure_bfs, real_data_shapes, write_svg
+from t10.real_demo import measure_bfs, synthetic_shapes, write_svg
 
 
 def reference_distances(graph, start):
@@ -155,12 +155,11 @@ class EvidenceTests(unittest.TestCase):
             self.assertIn("<svg", content)
             self.assertIn("BFS graph", content)
 
-    def test_real_data_shapes_use_sample_labels(self):
-        labels = list(range(40, 80))
-        shapes = real_data_shapes(labels)
+    def test_synthetic_shapes_are_independent_of_sample(self):
+        shapes = synthetic_shapes()
         self.assertEqual([name for name, _ in shapes],
-                         ["Brainlinks Path", "Brainlinks Star",
-                          "Brainlinks Binary tree", "Brainlinks Grid 5x8"])
+                         ["Synthetic Path", "Synthetic Star",
+                          "Synthetic Binary tree", "Synthetic Grid 5x8"])
         for _, graph in shapes:
             self.assertEqual(len(graph), 40)
 

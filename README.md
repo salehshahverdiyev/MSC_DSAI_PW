@@ -35,32 +35,20 @@ Run the small correctness and work-counter demo:
 python -m t10.demo
 ```
 
-Run the measured comparison across Path, Star, Binary tree, Grid, and a
-Brainlinks sample:
+Run the work-counter comparison across four synthetic shapes and a genuine
+Brainlinks directed edge sample:
 
 ```powershell
 python -m t10.real_demo --dataset brainlinks.dat --edges 40
+python -m t10.real_demo --dataset brainlinks.dat --edges 1000 --no-svg
 ```
 
-The measured demo reports, for every graph and queue:
-
-- BFS correctness
-- elapsed time
-- peak traced Python memory
-- peak queue size
-- enqueue/dequeue counts
-- shifted and copied elements
-- resize events
-
-It also writes one SVG visualization per graph. Choose another output
-directory with `--output-dir`:
-
-```powershell
-python -m t10.real_demo `
-  --dataset brainlinks.dat `
-  --edges 40 `
-  --output-dir bfs_visualizations
-```
+For each graph, an aligned table lists all four queues, correctness, visited
+count, peak queue occupancy, shifted/copied elements, and resize events.
+These are algorithmic work counters, not timing benchmarks. The small default
+also writes SVGs; use `--output-dir bfs_visualizations` to choose the directory
+or `--no-svg` to skip files for larger samples. Synthetic shapes are independent
+40-vertex graphs, not real networks with substituted labels.
 
 ## Run tests
 
@@ -76,7 +64,8 @@ incremental migration, BFS distances, graph loading, metrics, and SVG output.
 For an adjacency-list graph with `V` vertices and `E` edges:
 
 - Graph storage: `O(V + E)`
-- BFS time: `O(V + E)`
+- BFS traversal time: `O(V + E)` assuming constant-time queue operations;
+  the shifting queue adds its shifting work
 - BFS auxiliary space: `O(V)`
 
 Queue operation characteristics:
@@ -88,14 +77,19 @@ Queue operation characteristics:
 | Circular doubling | `O(1)` amortized | `O(1)` | full copy during growth |
 | Incremental circular | normally `O(1)` | normally `O(1)` | migration bookkeeping |
 
-The measured time and memory values are empirical and depend on the machine,
-Python runtime, graph size, and workload.
+The retained `measure_bfs` helper provides illustrative whole-run time and
+traced memory; the checkpoint CLI displays work counters. Worst-case O(1) for
+the incremental queue is not established because pending-buffer growth can
+copy all pending elements in one operation.
 
 ## Data
 
 `brainlinks.dat` is a local two-column directed edge list. The real-data demo
 loads a bounded number of unique edges and compacts their vertex IDs for
-visualization. The original dataset is not redistributed by this project.
+visualization. The checked-in local file contains 1,960,108 rows, 957,853
+unique directed edges, and 10,000 vertices. The default uses 40 unique edges;
+`--edges 1000` selects a larger genuine prefix sample, not a random sample.
+External provenance and redistribution permission have not been verified.
 
 The optional C. elegans dataset instructions and expected metadata are in
 [`RUN.txt`](./RUN.txt).
@@ -109,7 +103,7 @@ MSC_DSAI_PW/
 │   ├── demo.py         correctness and work-counter demo
 │   ├── graph.py        graph generators and data loaders
 │   ├── queues.py       four queue implementations
-│   ├── real_demo.py    measured comparison and SVG generation
+│   ├── real_demo.py    work comparison and SVG generation
 │   ├── README.md       detailed T10 report
 │   └── tests/          deterministic test suite
 ├── brainlinks.dat      local real graph data

@@ -1,4 +1,4 @@
-"""Compare measured BFS queue behavior across synthetic and real graphs."""
+"""Compare BFS correctness and algorithmic work on synthetic and real graphs."""
 import argparse
 import math
 from pathlib import Path
@@ -119,35 +119,32 @@ def write_svg(graph, distances, labels, output, title="BFS graph",
 
 
 def run_case(name, graph, expected):
-    """Measure every queue on one graph and print comparable metrics."""
+    """Compare every queue using existing algorithmic work counters."""
     edge_count = sum(len(neighbors) for neighbors in graph)
     print(f"\n{name} (V={len(graph)}, E={edge_count}, source=0)")
+    print(f"{'Queue':30} {'Result':6} {'Visited':>8} {'Peak queue':>10} "
+          f"{'Shifted':>10} {'Copied':>10} {'Resizes':>8}")
     for queue_class in BASELINE_QUEUES:
-        distances, stats = measure_bfs(graph, queue_class)
+        distances, stats = bfs(graph, 0, queue_class, with_stats=True)
         if distances != expected:
             raise RuntimeError(f"BFS result mismatch for {name} and "
                                f"{queue_class.__name__}")
         reachable = sum(distance >= 0 for distance in distances)
         print(
-            f"  {queue_class.__name__}: PASS, reachable={reachable}/{len(graph)}, "
-            f"time={stats['time_seconds'] * 1000:.3f} ms, "
-            f"peak_memory={stats['peak_bytes']} B, peak_queue={stats['peak']}, "
-            f"enqueues={stats['enqueues']}, dequeues={stats['dequeues']}, "
-            f"shifted={stats['shifted']}, copied={stats['copied']}, "
-            f"resizes={stats['resizes']}"
+            f"{queue_class.__name__:30} {'PASS':6} {reachable:8d} "
+            f"{stats['peak']:10d} {stats['shifted']:10d} "
+            f"{stats['copied']:10d} {stats['resizes']:8d}"
         )
 
 
-def real_data_shapes(labels):
-    """Create named graph-shape views using real Brainlinks vertex labels."""
-    count = len(labels)
-    if count != 40:
-        raise ValueError("real-data shape demo requires exactly 40 labels")
+def synthetic_shapes():
+    """Return four synthetic workloads, independent of the real edge sample."""
+    count = 40
     shapes = (
-        ("Brainlinks Path", path_graph(count)),
-        ("Brainlinks Star", star_graph(count)),
-        ("Brainlinks Binary tree", tree_graph(count)),
-        ("Brainlinks Grid 5x8", grid_graph(5, 8)),
+        ("Synthetic Path", path_graph(count)),
+        ("Synthetic Star", star_graph(count)),
+        ("Synthetic Binary tree", tree_graph(count)),
+        ("Synthetic Grid 5x8", grid_graph(5, 8)),
     )
     return shapes
 
@@ -160,36 +157,40 @@ def main():
                         help="number of unique edges to sample")
     parser.add_argument("--output-dir", default="bfs_visualizations",
                         help="directory for one SVG per graph")
+    parser.add_argument("--no-svg", action="store_true",
+                        help="skip SVG files, recommended for larger edge samples")
     args = parser.parse_args()
     try:
         graph, summary = load_brainlinks(args.dataset, args.edges)
     except (OSError, ValueError) as error:
         parser.error(f"Cannot load dataset {args.dataset}: {error}")
 
-    print("BFS queue comparison across graph types")
-    print("  graph storage: O(V + E); BFS time: O(V + E); "
-          "BFS auxiliary space: O(V)")
+    print("BFS correctness and algorithmic work counters (not timing benchmarks)")
+    print("  Peak queue = maximum queued vertices, not a complete BFS layer size.")
     visualizations = []
-    labels = summary["labels"]
-    for name, real_graph in real_data_shapes(labels):
+    for name, real_graph in synthetic_shapes():
         expected = bfs(real_graph, 0, BASELINE_QUEUES[0])
         run_case(name, real_graph, expected)
         output = Path(args.output_dir) / f"{name.lower().replace(' ', '_')}.svg"
         layout = ("path" if "Path" in name else
                   "star" if "Star" in name else
                   "tree" if "tree" in name else "grid")
-        write_svg(real_graph, expected, labels, output, name, layout)
-        visualizations.append(output)
+        if not args.no_svg:
+            write_svg(real_graph, expected, list(range(len(real_graph))),
+                      output, name, layout)
+            visualizations.append(output)
 
     print("\nBrainlinks sample metadata: "
           "{rows} rows read, {edges} unique edges, {vertices} vertices".format(**summary))
     expected = bfs(graph, 0, BASELINE_QUEUES[0])
-    run_case("Brainlinks sample", graph, expected)
+    run_case("Real Brainlinks directed edge sample", graph, expected)
     output = Path(args.output_dir) / "brainlinks_sample.svg"
-    write_svg(graph, expected, summary["labels"], output, "Brainlinks sample",
-              "circular")
-    visualizations.append(output)
-    print("  graph visualizations:")
+    if not args.no_svg:
+        write_svg(graph, expected, summary["labels"], output,
+                  "Real Brainlinks directed edge sample", "circular")
+        visualizations.append(output)
+    if visualizations:
+        print("  graph visualizations:")
     for visualization in visualizations:
         print(f"    {visualization.resolve()}")
 

@@ -40,7 +40,7 @@ The four required queues are:
    the pending segment can grow and copy its live elements.
 
 The implementations are in [queues.py](./queues.py), and BFS uses the common
-`BASELINE_QUEUES` collection in [bfs.py](./bfs.py).
+`BASELINE_QUEUES` collection in [queues.py](./queues.py).
 
 ## BFS workloads
 
@@ -52,23 +52,33 @@ The demo compares all four queues on:
 - a grid, which has a moderate frontier;
 - a bounded sample of the real `brainlinks.dat` graph.
 
-Run the measured comparison from the repository root:
+Run the algorithmic work comparison from the repository root:
 
 ```powershell
-.\.venv\Scripts\python.exe -m t10.real_demo `
+python -m t10.real_demo `
   --dataset brainlinks.dat --edges 40
 ```
 
-The command reports elapsed BFS time, peak traced Python memory, queue
-occupancy, enqueue/dequeue counts, shifts, copies, and resize events. The
-reported time is an empirical run measurement; repeat runs and larger
-workloads are needed for statistically stable averages and slowest-operation
-measurements.
+The command prints an aligned table of visited count, peak queue occupancy,
+shifts, copies, and resizes for each queue. These are algorithmic work counters,
+not timing benchmarks. The four synthetic shapes use ordinary 0-based labels
+and are independent of Brainlinks. The actual directed Brainlinks sample keeps
+its original vertex IDs in SVG labels. For a larger genuine sample, run:
+
+```powershell
+python -m t10.real_demo --dataset brainlinks.dat --edges 1000 --no-svg
+```
+
+The local file has 957,853 unique directed edges on 10,000 vertices; the default
+uses just 40 unique edges. Samples are file prefixes, not random samples.
+`measure_bfs` remains an illustrative whole-BFS timing/traced-memory helper;
+statistical and single-operation measurements remain unfinished.
 
 ## Complexity and interpretation
 
-For a graph with `V` vertices and `E` adjacency-list edges, BFS takes
-`O(V + E)` time and `O(V)` auxiliary space, excluding the graph itself.
+For a graph with `V` vertices and `E` adjacency-list edges, BFS traversal takes
+`O(V + E)` time assuming constant-time queue operations; shifting adds work.
+Auxiliary space is `O(V)`, excluding the graph itself.
 Adjacency-list storage is `O(V + E)`.
 
 Queue operation bounds are:
@@ -84,7 +94,8 @@ Queue operation bounds are:
 spikes. `capacity_history` and `resize_events` show when growth occurs.
 The incremental implementation removes the normal full-copy resize spike, but
 its pending-overflow path is visible in the copy counter and should be included
-when interpreting worst-case measurements.
+when interpreting worst-case measurements. Worst-case O(1) is not established;
+allocating larger Python backing lists also costs time.
 `tracemalloc` in [real_demo.py](./real_demo.py) measures peak traced Python
 memory for the whole BFS run; it is not a direct per-element allocator
 measurement.
@@ -104,5 +115,5 @@ The tests check:
 Run them with:
 
 ```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s t10\tests -v
+python -m unittest discover -s t10\tests -v
 ```
